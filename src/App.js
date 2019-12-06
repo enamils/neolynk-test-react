@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Form from './components/Form'
+import List from './components/List'
+import ListDisplay from './components/ListDisplay'
+
+class App extends React.Component {
+
+  state = {
+    listing: [],
+    contacts: []
+  }
+
+  addListing = (title) => {
+    const newList = {
+      title: title
+    }
+
+    this.setState({ listing: [...this.state.listing, newList]})
+  }
+
+  componentDidMount() {
+    fetch('http://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ contacts: data })
+      })
+      .catch(err => console.error(err))
+  }
+
+  render () {
+    return (
+      <div className='App'>
+        <h1>NEOLYNK Test React</h1>
+        <Form addListing={this.addListing} />
+        <List listing={this.state.listing} />
+        <ListDisplay contacts={this.state.contacts} />
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App

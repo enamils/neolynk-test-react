@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
 }
 
@@ -19,4 +19,14 @@
 
 .App-link {
   color: #09d3ac;
+} */
+.App {
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.App h1 {
+  margin: 2rem;
 }
