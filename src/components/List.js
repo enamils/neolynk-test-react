@@ -1,15 +1,11 @@
 import React from 'react'
 import ListItem from './ListItem';
 
-class List extends React.Component {
+const List = ({ listing }) => {
 
-    render() {
-        const { listing } = this.props
-
-        return listing.map((listing, index) => (
-            <ListItem key={`${listing}-${index}`} listing={listing} />
-        ));
-    }
+    return listing.map((listing, index) => (
+        <ListItem key={`${listing}-${index}`} listing={listing} />
+    ));
 }
 
 

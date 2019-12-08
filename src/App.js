@@ -3,7 +3,6 @@ import './App.css';
 
 import Form from './components/Form'
 import List from './components/List'
-import ListDisplay from './components/ListDisplay'
 
 class App extends React.Component {
 
@@ -12,21 +11,14 @@ class App extends React.Component {
     contacts: []
   }
 
-  addListing = (title) => {
-    const newList = {
-      title: title
+  async componentDidMount() {
+    try {
+      const response = await fetch('http://jsonplaceholder.typicode.com/users')
+      const json = await response.json()
+      this.setState({ contacts: json })
+    } catch (error) {
+      console.log(error)
     }
-
-    this.setState({ listing: [...this.state.listing, newList]})
-  }
-
-  componentDidMount() {
-    fetch('http://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({ contacts: data })
-      })
-      .catch(err => console.error(err))
   }
 
   render () {
@@ -35,8 +27,32 @@ class App extends React.Component {
         <h1>NEOLYNK Test React</h1>
         <Form addListing={this.addListing} />
         <List listing={this.state.listing} />
-        <ListDisplay contacts={this.state.contacts} />
+        {this.listDisplay()}
       </div>
+    )
+  }
+
+  addListing = (title) => {
+    const newList = {
+      title: title
+    }
+
+    this.setState({ listing: [...this.state.listing, newList] })
+  }
+
+  listDisplay = () => {
+    const { contacts } = this.state
+
+    return (
+      <React.Fragment>
+        {contacts.map((contact, index) => (
+          <div className="card" key={`${contact}-${index}`}>
+            <div className="card-body">
+              <h5 className="card-text">{contact.name}</h5>
+            </div>
+          </div>
+        ))}
+      </React.Fragment>
     )
   }
 }
